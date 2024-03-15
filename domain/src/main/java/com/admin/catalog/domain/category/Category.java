@@ -1,6 +1,7 @@
 package com.admin.catalog.domain.category;
 
 import com.admin.catalog.domain.AggregateRoot;
+import com.admin.catalog.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 
@@ -34,8 +35,7 @@ public class Category extends AggregateRoot<CategoryId> {
     public static Category newCategory(final String name, final String description, final Boolean isActive) {
         final var uuid = CategoryId.unique();
         final var now = Instant.now();
-       return new Category(uuid, name, description, isActive,
-               now, now, null);
+        return new Category(uuid, name, description, isActive, now, now, null);
     }
 
     public String getName() {
@@ -60,5 +60,10 @@ public class Category extends AggregateRoot<CategoryId> {
 
     public Instant getDeletedAt() {
         return deletedAt;
+    }
+
+    @Override
+    public void validate(final ValidationHandler handler) {
+        new CategoryValidator(this, handler).validate();
     }
 }
