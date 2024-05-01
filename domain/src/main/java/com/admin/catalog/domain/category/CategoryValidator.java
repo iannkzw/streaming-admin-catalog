@@ -25,10 +25,12 @@ public class CategoryValidator extends Validator {
 
         if (name == null) {
             this.validationHandler().append(new Error("'name' should not be null"));
+            return;
         }
 
         if (name.isBlank()) {
             this.validationHandler().append(new Error("'name' should not be empty"));
+            return;
         }
 
         final int length = name.trim().length();

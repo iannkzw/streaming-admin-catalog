@@ -64,6 +64,7 @@ public class Category extends AggregateRoot<CategoryId> {
 
     @Override
     public void validate(final ValidationHandler handler) {
+
         new CategoryValidator(this, handler).validate();
     }
 

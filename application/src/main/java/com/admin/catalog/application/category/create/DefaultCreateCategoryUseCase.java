@@ -2,8 +2,13 @@ package com.admin.catalog.application.category.create;
 
 import com.admin.catalog.domain.category.Category;
 import com.admin.catalog.domain.category.CategoryGateway;
+import com.admin.catalog.domain.validation.handler.Notification;
+import io.vavr.control.Either;
 
 import java.util.Objects;
+
+import static io.vavr.API.Left;
+import static io.vavr.API.Try;
 
 public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase{
 
@@ -14,9 +19,19 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase{
     }
 
     @Override
-    public CreateCategoryOutput execute(CreateCategoryCommand aCommand) {
+    public Either<Notification, CreateCategoryOutput> execute(CreateCategoryCommand aCommand) {
+        final var notification = Notification.create();
+
         final Category category = Category.newCategory(aCommand.name(), aCommand.description(), aCommand.isActive());
 
-        return CreateCategoryOutput.from(this.categoryGateway.create(category));
+        category.validate(notification);
+
+        return notification.hasErrors() ? Left(notification) : create(category);
+    }
+
+    private Either<Notification, CreateCategoryOutput> create(final Category aCategory) {
+        return Try(() -> this.categoryGateway.create(aCategory))
+                .toEither()
+                .bimap(Notification::create, CreateCategoryOutput::from);
     }
 }
