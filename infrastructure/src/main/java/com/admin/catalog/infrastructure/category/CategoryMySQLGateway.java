@@ -5,11 +5,21 @@ import com.admin.catalog.domain.category.CategoryGateway;
 import com.admin.catalog.domain.category.CategoryId;
 import com.admin.catalog.domain.pagination.Pagination;
 import com.admin.catalog.domain.pagination.SearchQuery;
+import com.admin.catalog.infrastructure.category.persistence.CategoryRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CategoryMySQLGateway implements CategoryGateway {
+
+    private final CategoryRepository repository;
+
+    public CategoryMySQLGateway(CategoryRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public Category create(Category aCategory) {
         return null;
