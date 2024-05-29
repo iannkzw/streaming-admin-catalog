@@ -30,8 +30,6 @@ public class CategoryMySQLGatewayTest {
 
         final var actualCategory = categoryGateway.create(aCategory);
 
-        final var teste = categoryRepository.findAll();
-
         Assertions.assertEquals(1, categoryRepository.count());
 
         Assertions.assertEquals(aCategory.getId(), actualCategory.getId());
