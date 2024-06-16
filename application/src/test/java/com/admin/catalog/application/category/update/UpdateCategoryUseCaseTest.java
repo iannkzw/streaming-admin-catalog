@@ -1,16 +1,15 @@
 package com.admin.catalog.application.category.update;
 
+import com.admin.catalog.application.category.UseCaseTest;
 import com.admin.catalog.domain.category.Category;
 import com.admin.catalog.domain.category.CategoryGateway;
 import com.admin.catalog.domain.category.CategoryId;
 import com.admin.catalog.domain.exceptions.DomainException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,13 +18,18 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class UpdateCategoryUseCaseTest {
+public class UpdateCategoryUseCaseTest extends UseCaseTest {
     @InjectMocks
     private DefaultUpdateCategoryUseCase useCase;
 
     @Mock
     private CategoryGateway categoryGateway;
+
+
+    @Override
+    protected List<Object> getMocks() {
+        return List.of(categoryGateway);
+    }
 
     @Test
     public void givenAValidCommand_whenCallsUpdateCategory_shouldReturnCategoryId() {
@@ -46,8 +50,14 @@ public class UpdateCategoryUseCaseTest {
         when(categoryGateway.findById(eq(expectedId)))
                 .thenReturn(Optional.of(Category.with(aCategory)));
 
-        when(categoryGateway.update(any()))
+        when(categoryGateway.update(aCategory))
                 .thenAnswer(returnsFirstArg());
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         final var actualOutput = useCase.execute(aCommand).get();
 
@@ -58,7 +68,7 @@ public class UpdateCategoryUseCaseTest {
 
         verify(categoryGateway, times(1)).update(argThat(
                 aUpdatedCategory ->
-                        Objects.equals("Filmes", aUpdatedCategory.getName())
+                        Objects.equals(expectedName, aUpdatedCategory.getName())
                                 && Objects.equals(expectedDescription, aUpdatedCategory.getDescription())
                                 && Objects.equals(expectedIsActive, aUpdatedCategory.getActive())
                                 && Objects.equals(expectedId, aUpdatedCategory.getId())
@@ -67,6 +77,7 @@ public class UpdateCategoryUseCaseTest {
                                 && Objects.isNull(aUpdatedCategory.getDeletedAt())
         ));
     }
+
 
     @Test
     public void givenAInvalidName_whenCallsUpdateCategory_thenShouldReturnDomainException() {
