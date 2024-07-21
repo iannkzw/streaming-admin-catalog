@@ -4,6 +4,7 @@ import com.admin.catalog.domain.category.Category;
 import com.admin.catalog.domain.category.CategoryGateway;
 import com.admin.catalog.domain.category.CategoryId;
 import com.admin.catalog.domain.exceptions.DomainException;
+import com.admin.catalog.domain.exceptions.NotFoundException;
 import com.admin.catalog.domain.validation.Error;
 import com.admin.catalog.domain.validation.handler.Notification;
 import io.vavr.control.Either;
@@ -44,10 +45,6 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase{
     }
 
     private Supplier<DomainException> notFound(final CategoryId anId) {
-        return () -> DomainException.with(
-                new Error(
-                        "Category with ID %s was not found".formatted(anId.getValue())
-                )
-        );
+        return () -> NotFoundException.with(Category.class, anId);
     }
 }
