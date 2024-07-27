@@ -1,15 +1,13 @@
 package com.admin.catalog.infrastructure.api;
 
 import com.admin.catalog.domain.pagination.Pagination;
+import com.admin.catalog.infrastructure.category.models.CreateCategoryRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("categories")
 @Tag(name = "Categories")
@@ -22,7 +20,7 @@ public interface CategoryAPI {
         @ApiResponse(responseCode = "402", description = "Unprocessable error"),
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    ResponseEntity<?> createCategory();
+    ResponseEntity<?> createCategory(@RequestBody CreateCategoryRequest input);
 
     @GetMapping(produces = "application/json")
     @Operation(summary = "List all categories paginated")
