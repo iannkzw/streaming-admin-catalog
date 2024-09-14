@@ -48,7 +48,6 @@ public class CategoryAPITest {
 
     @Test
     public void givenAValidCommand_whenCallsCreateCategory_shouldReturnCategoryId() throws Exception {
-        // given
         final var expectedName = "Filmes";
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = true;
@@ -59,7 +58,6 @@ public class CategoryAPITest {
         when(createCategoryUseCase.execute(any()))
                 .thenReturn(Right(CreateCategoryOutput.from("123")));
 
-        // when
         final var request = post("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(aInput));
@@ -67,7 +65,6 @@ public class CategoryAPITest {
         final var response = this.mvc.perform(request)
                 .andDo(print());
 
-        // then
         response.andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/categories/123"))
                 .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
@@ -82,7 +79,6 @@ public class CategoryAPITest {
 
     @Test
     public void givenAInvalidName_whenCallsCreateCategory_thenShouldReturnNotification() throws Exception {
-        // given
         final String expectedName = null;
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = true;
@@ -94,7 +90,6 @@ public class CategoryAPITest {
         when(createCategoryUseCase.execute(any()))
                 .thenReturn(Left(Notification.create(new Error(expectedMessage))));
 
-        // when
         final var request = post("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(aInput));
@@ -102,7 +97,6 @@ public class CategoryAPITest {
         final var response = this.mvc.perform(request)
                 .andDo(print());
 
-        // then
         response.andExpect(status().isUnprocessableEntity())
                 .andExpect(header().string("Location", nullValue()))
                 .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
@@ -118,7 +112,6 @@ public class CategoryAPITest {
 
     @Test
     public void givenAInvalidCommand_whenCallsCreateCategory_thenShouldReturnDomainException() throws Exception {
-        // given
         final String expectedName = null;
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = true;
@@ -130,7 +123,6 @@ public class CategoryAPITest {
         when(createCategoryUseCase.execute(any()))
                 .thenThrow(DomainException.with(new Error(expectedMessage)));
 
-        // when
         final var request = post("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(aInput));
@@ -138,7 +130,6 @@ public class CategoryAPITest {
         final var response = this.mvc.perform(request)
                 .andDo(print());
 
-        // then
         response.andExpect(status().isUnprocessableEntity())
                 .andExpect(header().string("Location", nullValue()))
                 .andExpect(header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
