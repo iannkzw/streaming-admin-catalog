@@ -13,4 +13,8 @@ public record UpdateCategoryOutput (
     public static UpdateCategoryOutput from(final Category aCategory) {
         return new UpdateCategoryOutput(aCategory.getId().getValue());
     }
+
+    public static UpdateCategoryOutput from(final String id) {
+        return new UpdateCategoryOutput(id);
+    }
 }
