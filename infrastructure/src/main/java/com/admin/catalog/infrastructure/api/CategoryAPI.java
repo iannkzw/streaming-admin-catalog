@@ -1,6 +1,7 @@
 package com.admin.catalog.infrastructure.api;
 
 import com.admin.catalog.domain.pagination.Pagination;
+import com.admin.catalog.infrastructure.category.models.CategoryApiOutput;
 import com.admin.catalog.infrastructure.category.models.CreateCategoryRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,12 +23,30 @@ public interface CategoryAPI {
     })
     ResponseEntity<?> createCategory(@RequestBody CreateCategoryRequest input);
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(value = "{id}", consumes = "application/json", produces = "application/json")
+    @Operation(summary = "Get a category by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Found successfully"),
+        @ApiResponse(responseCode = "404", description = "Not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    CategoryApiOutput getCategoryById(@PathVariable("id") String id);
+
+    @GetMapping(consumes = "application/json", produces = "application/json")
     @Operation(summary = "List all categories paginated")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Listed successfully"),
         @ApiResponse(responseCode = "422", description = "A invalid parameter was received"),
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    Pagination<?> listCategories(@RequestParam(value = "search", required = false, defaultValue = "") String search, @RequestParam(value = "page", required = false, defaultValue = "0") int page, @RequestParam(value = "perPage", required = false, defaultValue = "10") int perPage, @RequestParam(value = "sort", required = false, defaultValue = "name") String sort, @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction);
+    Pagination<?> listCategories(
+            @RequestParam(
+                    value = "search", required = false, defaultValue = "") String search,
+            @RequestParam(
+                    value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(
+                    value = "perPage", required = false, defaultValue = "10") int perPage,
+            @RequestParam(value = "sort", required = false, defaultValue = "name") String sort,
+            @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction
+    );
 }
