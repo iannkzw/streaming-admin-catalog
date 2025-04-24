@@ -365,7 +365,7 @@ public class CategoryAPITest {
 
         // then
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.currentsPage", equalTo(expectedPage)))
+                .andExpect(jsonPath("$.currentPage", equalTo(expectedPage)))
                 .andExpect(jsonPath("$.perPage", equalTo(expectedPerPage)))
                 .andExpect(jsonPath("$.total", equalTo(expectedTotal)))
                 .andExpect(jsonPath("$.items", hasSize(expectedItemsCount)))
