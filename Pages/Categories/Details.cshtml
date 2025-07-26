@@ -1,0 +1,136 @@
+@page
+@model StreamingAdminCatalog.Pages.Categories.DetailsModel
+@{
+    ViewData["Title"] = "Detalhes da Categoria";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="Index">Categorias</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Detalhes</li>
+                </ol>
+            </nav>
+
+            <h1 class="display-6 mb-4">@ViewData["Title"]</h1>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">@Model.Category.Name</h4>
+                    @if (Model.Category.IsActive)
+                    {
+                        <span class="badge bg-success fs-6">Ativo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger fs-6">Inativo</span>
+                    }
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-bold">Descrição</label>
+                            <p class="form-control-plaintext">
+                                @if (!string.IsNullOrEmpty(Model.Category.Description))
+                                {
+                                    @Model.Category.Description
+                                }
+                                else
+                                {
+                                    <em class="text-muted">Sem descrição</em>
+                                }
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">ID</label>
+                            <p class="form-control-plaintext"><code>@Model.Category.Id</code></p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Status</label>
+                            <p class="form-control-plaintext">
+                                @if (Model.Category.IsActive)
+                                {
+                                    <span class="text-success">
+                                        <i class="fas fa-check-circle"></i> Categoria ativa
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">
+                                        <i class="fas fa-times-circle"></i> Categoria inativa
+                                    </span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Criado em</label>
+                            <p class="form-control-plaintext">@Model.Category.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Última atualização</label>
+                            <p class="form-control-plaintext">@Model.Category.UpdatedAt.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Excluído em</label>
+                            <p class="form-control-plaintext">
+                                @if (Model.Category.DeletedAt.HasValue)
+                                {
+                                    @Model.Category.DeletedAt.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                                }
+                                else
+                                {
+                                    <em class="text-muted">N/A</em>
+                                }
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <a asp-page="Edit" asp-route-id="@Model.Category.Id" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a asp-page="Delete" asp-route-id="@Model.Category.Id" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Excluir
+                        </a>
+                        <a asp-page="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Voltar à Lista
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar"></i> Estatísticas
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>Informações adicionais sobre esta categoria.</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Tempo ativo:</strong> 
+                            @{
+                                var timeActive = DateTime.UtcNow - Model.Category.CreatedAt;
+                            }
+                            @timeActive.Days dias
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

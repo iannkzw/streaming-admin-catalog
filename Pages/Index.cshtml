@@ -1,0 +1,99 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron bg-primary text-white p-5 rounded mb-4">
+                <div class="text-center">
+                    <h1 class="display-4">
+                        <i class="fas fa-video fa-2x mb-3"></i><br />
+                        Streaming Admin Catalog
+                    </h1>
+                    <p class="lead">Sistema de administração do catálogo de vídeos de streaming</p>
+                    <hr class="my-4" style="border-color: rgba(255,255,255,0.3);">
+                    <p>Gerencie categorias, organize conteúdo e administre seu catálogo de vídeos de forma eficiente.</p>
+                    <a class="btn btn-light btn-lg" asp-page="Categories/Index" role="button">
+                        <i class="fas fa-list"></i> Gerenciar Categorias
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-list fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Categorias</h5>
+                    <p class="card-text">Organize seu conteúdo em categorias para facilitar a navegação e descoberta.</p>
+                    <a asp-page="Categories/Index" class="btn btn-primary">Ver Categorias</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-plus fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">Nova Categoria</h5>
+                    <p class="card-text">Crie novas categorias para expandir e organizar melhor seu catálogo de vídeos.</p>
+                    <a asp-page="Categories/Create" class="btn btn-success">Criar Categoria</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-bar fa-3x text-info mb-3"></i>
+                    <h5 class="card-title">Estatísticas</h5>
+                    <p class="card-text">Acompanhe o crescimento e a organização do seu catálogo de vídeos.</p>
+                    <button class="btn btn-info" disabled>Em Breve</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle"></i> Sobre o Sistema
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        O <strong>Streaming Admin Catalog</strong> é uma aplicação web desenvolvida em ASP.NET Core Razor Pages 
+                        para administração de catálogos de vídeos de streaming. O sistema permite:
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success"></i> Criação e gerenciamento de categorias</li>
+                                <li><i class="fas fa-check text-success"></i> Organização hierárquica do conteúdo</li>
+                                <li><i class="fas fa-check text-success"></i> Interface responsiva e intuitiva</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success"></i> Validação de dados em tempo real</li>
+                                <li><i class="fas fa-check text-success"></i> Sistema de busca integrado</li>
+                                <li><i class="fas fa-check text-success"></i> Controle de status (ativo/inativo)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

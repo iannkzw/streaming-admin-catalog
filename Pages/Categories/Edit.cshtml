@@ -1,0 +1,99 @@
+@page
+@model StreamingAdminCatalog.Pages.Categories.EditModel
+@{
+    ViewData["Title"] = "Editar Categoria";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="Index">Categorias</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+                </ol>
+            </nav>
+
+            <h1 class="display-6 mb-4">@ViewData["Title"]</h1>
+
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        <input type="hidden" asp-for="Category.Id" />
+                        <input type="hidden" asp-for="Category.CreatedAt" />
+                        
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Category.Name" class="form-label">Nome *</label>
+                            <input asp-for="Category.Name" class="form-control" placeholder="Digite o nome da categoria" />
+                            <span asp-validation-for="Category.Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Category.Description" class="form-label">Descrição</label>
+                            <textarea asp-for="Category.Description" class="form-control" rows="3" placeholder="Digite uma descrição para a categoria (opcional)"></textarea>
+                            <span asp-validation-for="Category.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input asp-for="Category.IsActive" class="form-check-input" type="checkbox" />
+                                <label asp-for="Category.IsActive" class="form-check-label">
+                                    Categoria ativa
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">Categorias ativas são exibidas para seleção</small>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Criado em</label>
+                                <input type="text" class="form-control" value="@Model.Category.CreatedAt.ToString("dd/MM/yyyy HH:mm")" readonly />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Última atualização</label>
+                                <input type="text" class="form-control" value="@Model.Category.UpdatedAt.ToString("dd/MM/yyyy HH:mm")" readonly />
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                            <a asp-page="Details" asp-route-id="@Model.Category.Id" class="btn btn-outline-info">
+                                <i class="fas fa-eye"></i> Ver Detalhes
+                            </a>
+                            <a asp-page="Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle"></i> Informações
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>Edite as informações da categoria.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success"></i> Nome é obrigatório</li>
+                        <li><i class="fas fa-check text-success"></i> Máximo de 100 caracteres para o nome</li>
+                        <li><i class="fas fa-check text-success"></i> Descrição opcional com até 500 caracteres</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

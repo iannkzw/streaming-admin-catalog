@@ -1,0 +1,125 @@
+@page
+@model StreamingAdminCatalog.Pages.Categories.IndexModel
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="display-6">@ViewData["Title"]</h1>
+                <a asp-page="Create" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nova Categoria
+                </a>
+            </div>
+
+            <!-- Search Form -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="get">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input asp-for="SearchTerm" class="form-control" placeholder="Buscar por nome ou descrição..." />
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    <i class="fas fa-search"></i> Buscar
+                                </button>
+                                <a asp-page="Index" class="btn btn-outline-danger ms-2">
+                                    <i class="fas fa-times"></i> Limpar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Categories Table -->
+            <div class="card">
+                <div class="card-body">
+                    @if (Model.Categories.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Descrição</th>
+                                        <th>Status</th>
+                                        <th>Criado em</th>
+                                        <th width="200" class="text-center">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@category.Name</strong>
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(category.Description))
+                                                {
+                                                    @category.Description
+                                                }
+                                                else
+                                                {
+                                                    <em class="text-muted">Sem descrição</em>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (category.IsActive)
+                                                {
+                                                    <span class="badge bg-success">Ativo</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">Inativo</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @category.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group" role="group">
+                                                    <a asp-page="Details" asp-route-id="@category.Id" class="btn btn-sm btn-outline-info" title="Detalhes">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a asp-page="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-outline-warning" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a asp-page="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-outline-danger" title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">Nenhuma categoria encontrada</h4>
+                            <p class="text-muted">
+                                @if (!string.IsNullOrEmpty(Model.SearchTerm))
+                                {
+                                    <span>Tente uma busca diferente ou</span>
+                                }
+                                <a asp-page="Create" class="btn btn-primary">crie uma nova categoria</a>
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

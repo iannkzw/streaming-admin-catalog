@@ -1,5 +1,0 @@
-rootProject.name = 'streaming-admin-catalog'
-include 'application'
-include 'domain'
-include 'infrastructure'
-
